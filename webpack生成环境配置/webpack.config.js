@@ -1,12 +1,12 @@
 const { resolve } = require('path')
-const { MiniCssExtractPlugin } = require('mini-css-extract-plugin')
-const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin')
-const HtmlWenpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 // 设置nodejs环境变量
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'production';
 
-commonCssLoader = [
+const commonCssLoader = [
     MiniCssExtractPlugin.loader,
     'css-loader',
     {
@@ -21,7 +21,7 @@ commonCssLoader = [
             }
         }
     }
-]
+];
 module.exports = {
     entry: './src/js/index.js',
     output:{
@@ -59,7 +59,7 @@ module.exports = {
                           '@babel/preset-env',
                             {
                                 // 按需加载
-                                useBuiltIns: 'usage',
+                                useBuiltIns: 'entry',
                                 // 指定core-js版本
                                 corejs: {
                                     version: 3
@@ -110,8 +110,8 @@ module.exports = {
             filename: 'css/puilt.css'
         }),
         // 压缩css
-        new CssMinimizerWebpackPlugin(),
-        new HtmlWenpackPlugin({
+        new OptimizeCssAssetsWebpackPlugin(),
+        new HtmlWebpackPlugin({
             template: './src/index.html',
             minify: {
                 // 移除空格
